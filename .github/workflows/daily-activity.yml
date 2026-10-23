@@ -21,7 +21,7 @@ jobs:
           GIT_COMMITTER_NAME: unkidotaplug
           GIT_COMMITTER_EMAIL: 283572459+unkidotaplug@users.noreply.github.com
         run: |
-          COUNT=$(( RANDOM % 10 + 1 ))
+          COUNT=$(( RANDOM % 13 + 8 ))
           DAY=$(date -u +%Y-%m-%d)
           .github/activity/make_commits.sh "$GITHUB_WORKSPACE" "$DAY" "$COUNT"
           cd "$GITHUB_WORKSPACE"
