@@ -1,0 +1,30 @@
+name: daily-activity
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # каждый день в 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  activity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTIVITY_TOKEN }}
+
+      - name: Make commits for today
+        env:
+          GIT_AUTHOR_NAME: unkidotaplug
+          GIT_AUTHOR_EMAIL: 283572459+unkidotaplug@users.noreply.github.com
+          GIT_COMMITTER_NAME: unkidotaplug
+          GIT_COMMITTER_EMAIL: 283572459+unkidotaplug@users.noreply.github.com
+        run: |
+          COUNT=$(( RANDOM % 10 + 1 ))
+          DAY=$(date -u +%Y-%m-%d)
+          .github/activity/make_commits.sh "$GITHUB_WORKSPACE" "$DAY" "$COUNT"
+          cd "$GITHUB_WORKSPACE"
+          git push origin HEAD:main
